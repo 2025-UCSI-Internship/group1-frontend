@@ -1,0 +1,36 @@
+{
+  "name": "pants-front",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "react-router build",
+    "dev": "react-router dev",
+    "start": "react-router-serve ./build/server/index.js",
+    "typecheck": "react-router typegen && tsc"
+  },
+  "dependencies": {
+    "@react-router/node": "^7.7.1",
+    "@react-router/serve": "^7.7.1",
+    "isbot": "^5.1.27",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router": "^7.7.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@react-router/dev": "^7.7.1",
+    "@tailwindcss/vite": "^4.1.4",
+    "@types/node": "^20",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "eslint": "^9.33.0",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^16.3.0",
+    "jiti": "^2.5.1",
+    "tailwindcss": "^4.1.4",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.39.1",
+    "vite": "^6.3.3",
+    "vite-tsconfig-paths": "^5.1.4"
+  }
+}
