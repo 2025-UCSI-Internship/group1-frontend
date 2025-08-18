@@ -11,6 +11,6 @@ export const links: LinksFunction = () => [
     // Pretendard 폰트 CSS
     {
         rel: "stylesheet", 
-        href: pretendardStylesheet,
+        href: pretendardStylesheet, // 위에서 import 한 변수 사용
     },
 ];
