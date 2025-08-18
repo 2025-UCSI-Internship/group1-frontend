@@ -35,7 +35,7 @@ const texts = {
 
 // UI 요소
 const ui = {
-    DIVIDER: "#d4d4d4B3" // opacity: 70%
+    DIVIDER: "#d4d4d4B3", // opacity: 70%
     HEADER_DIVIDER: "#6691DC",
 }
 
