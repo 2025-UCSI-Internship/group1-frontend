@@ -1,5 +1,14 @@
 // MARK: - 자산 관련 타입 정의
 
+// SECTION:  - 유니온 타입 정의
+// 자산 상태
+type AssetStatus = 'Active' | 'In Storage' | 'In Use' | 'Retired' | 'Under Maintenance';
+// 자산 카테고리
+type AssetCategory = 'Consumables' | 'IT Hardware' | 'Peripherals';
+// 자산 타입
+type AssetType = 'Desktop' | 'Laptop' | 'Monitor' | 'Printer' | 'Projecter' | 'Scanner' | 'Tablet' | 'Toner';
+
+
 // 자산 등록
 interface CreateAssetRequestDto {
     asset: AssetDto;
@@ -78,11 +87,5 @@ interface AssetDto {
 
 }
 
-// 자산 상태
-type AssetStatus = 'Active' | 'In Storage' | 'In Use' | 'Retired' | 'Under Maintenance';
-// 자산 카테고리
-type AssetCategory = 'Consumables' | 'IT Hardware' | 'Peripherals';
-// 자산 타입
-type AssetType = 'Desktop' | 'Laptop' | 'Monitor' | 'Printer' | 'Projecter' | 'Scanner' | 'Tablet' | 'Toner';
 
 
