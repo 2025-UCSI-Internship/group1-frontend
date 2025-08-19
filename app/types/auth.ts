@@ -1,30 +1,30 @@
 // MARK: -인증 관련 타입 정의
 
 // 로그인 요청
-interface LoginRequestDto {
+export interface LoginRequestDto {
     id: string;
     password: string;
 }
 
 // 로그인 응답
-interface LoginResponseDto {
+export interface LoginResponseDto {
     accessToken: string;
     refreshToken: string;
     user: UserDto;
 }
 
 // 로그아웃 요청
-interface LogoutRequestDto {
+export interface LogoutRequestDto {
     refreshToken: string;
 }
 
 // 로그아웃 응답
-interface LoginResponseDto {
+export interface LoginResponseDto {
     logoutToken: boolean;
 }
 
 // 회원가입 요청
-interface SignupRequestDto {
+export interface SignupRequestDto {
     id: string;
     role: UserRole;
     name: string;
@@ -36,12 +36,12 @@ interface SignupRequestDto {
 }
 
 // 회원가입 응답
-interface SignupResponseDto {
+export interface SignupResponseDto {
     signupToken: boolean;
 }
 
 // 사용자 정보
-interface UserDto {
+export interface UserDto {
     userId: string;
     role: UserRole;
     name: string;
@@ -50,4 +50,4 @@ interface UserDto {
 }
 
 // 사용자 구분
-type UserRole = 'admin' | 'user'
+export type UserRole = 'admin' | 'user'
