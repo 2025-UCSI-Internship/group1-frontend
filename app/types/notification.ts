@@ -1,8 +1,8 @@
 // MARK: - 알람 관련 Dto
 
-type NotificationType = 'Late return' | 'Warranty expiry';
+export type NotificationType = 'Late return' | 'Warranty expiry';
 
-interface NotificationDto {
+export interface NotificationDto {
     type: NotificationType;
     message: string;
     createdAt: Date;
@@ -10,7 +10,7 @@ interface NotificationDto {
 
 
 // 반납 지연 알림
-interface NotificationLateDto extends NotificationDto {
+export interface NotificationLateDto extends NotificationDto {
     type: 'Late return';
     assetId: string;
     dueDate: Date;
@@ -18,7 +18,7 @@ interface NotificationLateDto extends NotificationDto {
 }
 
 // 보증 만료 알림
-interface NotificationEndDto extends NotificationDto {
+export interface NotificationEndDto extends NotificationDto {
     type: 'Warranty expiry';
     assetId: string;
     warrantyEndDate: Date;
@@ -27,7 +27,7 @@ interface NotificationEndDto extends NotificationDto {
 
 
 // 알림 발송 이력 조회
-interface NotificationLogDto {
+export interface NotificationLogDto {
     id: string; // 로그 아이디
     type: NotificationType;
     message: string;
