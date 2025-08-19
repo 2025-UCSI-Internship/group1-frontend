@@ -11,7 +11,7 @@ interface DeleteAssetRequestDto {
     assetId: string;
 }
 
-// 자산 삭제 응담
+// 자산 삭제 응답
 interface DeleteAssetResponseDto {
     success: boolean;
     message?: string; // 옵셔널 필드
@@ -19,6 +19,9 @@ interface DeleteAssetResponseDto {
 
 // 자산 수정 요청
 interface UpdateAssetRequestDto {
+    assetId: string;
+    asset: Partial<AssetDto>;
+
 
 }
 
@@ -30,13 +33,15 @@ interface UpdateAssetResponseDto {
 
 // 자산 목록 조회 요청
 interface GetAssetsRequestDto {
-    type?: string;
+    type?: AssetType;
     category?: AssetCategory;
     status?: AssetStatus;
 }
 
 // 자산 목록 조회 응답
-interface GetAssetsResponseDto { }
+interface GetAssetsResponseDto {
+    assets: AssetDto[];
+}
 
 // 특정 자산 조회 요청
 interface GetAssetByIdRequestDto {
@@ -45,7 +50,8 @@ interface GetAssetByIdRequestDto {
 
 // 특정 자산 조회 응답
 interface GetAssetByIdResponseDto {
-
+    asset: AssetDto;
+    success: boolean;
 }
 
 // 자산 DTO
@@ -66,7 +72,7 @@ interface AssetDto {
     assignedDepartment: string;
     renter: string; // 인터페이스는 기본값 할당 불가
     status: AssetStatus;
-    createdAt: Date  // 객체 생성시 Date()생성
+    createdAt: Date;  // 객체 생성시 Date()생성
     updatedAt: Date;
     depreciation: number;
 
@@ -75,7 +81,7 @@ interface AssetDto {
 // 자산 상태
 type AssetStatus = 'Active' | 'In Storage' | 'In Use' | 'Retired' | 'Under Maintenance';
 // 자산 카테고리
-type AssetCategory = 'Consumables' | 'IT Hardward' | 'Peripherals';
+type AssetCategory = 'Consumables' | 'IT Hardware' | 'Peripherals';
 // 자산 타입
 type AssetType = 'Desktop' | 'Laptop' | 'Monitor' | 'Printer' | 'Projecter' | 'Scanner' | 'Tablet' | 'Toner';
 
