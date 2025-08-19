@@ -2,32 +2,32 @@
 
 // SECTION:  - 유니온 타입 정의
 // 자산 상태
-type AssetStatus = 'Active' | 'In Storage' | 'In Use' | 'Retired' | 'Under Maintenance';
+export type AssetStatus = 'Active' | 'In Storage' | 'In Use' | 'Retired' | 'Under Maintenance';
 // 자산 카테고리
-type AssetCategory = 'Consumables' | 'IT Hardware' | 'Peripherals';
+export type AssetCategory = 'Consumables' | 'IT Hardware' | 'Peripherals';
 // 자산 타입
-type AssetType = 'Desktop' | 'Laptop' | 'Monitor' | 'Printer' | 'Projecter' | 'Scanner' | 'Tablet' | 'Toner';
+export type AssetType = 'Desktop' | 'Laptop' | 'Monitor' | 'Printer' | 'Projector' | 'Scanner' | 'Tablet' | 'Toner';
 
 
 // 자산 등록
-interface CreateAssetRequestDto {
+export interface CreateAssetRequestDto {
     asset: AssetDto;
 
 }
 
 // 자산 삭제 요청
-interface DeleteAssetRequestDto {
+export interface DeleteAssetRequestDto {
     assetId: string;
 }
 
 // 자산 삭제 응답
-interface DeleteAssetResponseDto {
+export interface DeleteAssetResponseDto {
     success: boolean;
     message?: string; // 옵셔널 필드
 }
 
 // 자산 수정 요청
-interface UpdateAssetRequestDto {
+export interface UpdateAssetRequestDto {
     assetId: string;
     asset: Partial<AssetDto>;
 
@@ -35,36 +35,36 @@ interface UpdateAssetRequestDto {
 }
 
 // 자산 수정 응답
-interface UpdateAssetResponseDto {
+export interface UpdateAssetResponseDto {
     success: boolean;
     message?: string;
 }
 
 // 자산 목록 조회 요청
-interface GetAssetsRequestDto {
+export interface GetAssetsRequestDto {
     type?: AssetType;
     category?: AssetCategory;
     status?: AssetStatus;
 }
 
 // 자산 목록 조회 응답
-interface GetAssetsResponseDto {
+export interface GetAssetsResponseDto {
     assets: AssetDto[];
 }
 
 // 특정 자산 조회 요청
-interface GetAssetByIdRequestDto {
+export interface GetAssetByIdRequestDto {
     assetId: string;
 }
 
 // 특정 자산 조회 응답
-interface GetAssetByIdResponseDto {
+export interface GetAssetByIdResponseDto {
     asset: AssetDto;
     success: boolean;
 }
 
 // 자산 DTO
-interface AssetDto {
+export interface AssetDto {
     assetId: string;
     category: AssetCategory;
     type: AssetType;
