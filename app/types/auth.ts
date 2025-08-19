@@ -15,30 +15,39 @@ interface LoginResponseDto {
 
 // 로그아웃 요청
 interface LogoutRequestDto {
+    refreshToken: string;
 }
 
-
-// 로그아웃 요청
-interface LoginResponse {
-
+// 로그아웃 응답
+interface LoginResponseDto {
+    logoutToken: boolean;
 }
 
 // 회원가입 요청
 interface SignupRequestDto {
-
+    id: string;
+    role: UserRole;
+    name: string;
+    password: string;
+    passwordConfirm: boolean;
+    eMail: string;
+    phone: string;
+    createAt: Date;
 }
 
 // 회원가입 응답
 interface SignupResponseDto {
-
+    signupToken: boolean;
 }
 
 // 사용자 정보
 interface UserDto {
-
+    userId: string;
+    role: UserRole;
+    name: string;
+    email: string;
+    password: string;
 }
 
 // 사용자 구분
-enum UserRole {
-
-}
+type UserRole = 'admin' | 'user'
