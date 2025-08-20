@@ -2,7 +2,7 @@ import axios, { type AxiosResponse } from 'axios';
 
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const API_TIMEOUT = import.meta.env.VITE_API_TIMEOUT;
+const API_TIMEOUT = parseInt(import.meta.env.VITE_API_TIMEOUT);
 
 export const apiClient = axios.create({
     baseURL: API_BASE_URL,
@@ -28,10 +28,10 @@ apiClient.interceptors.request.use(
 
 // 응답 인터셉터
 apiClient.interceptors.response.use(
-    (reponse: AxiosResponse) => reponse,
+    (response: AxiosResponse) => response,
     (error) => {
         // 권한 없음
-        if (error.reponse?.status === 401) {
+        if (error.response?.status === 401) {
             // 로그아웃 처리
             localStorage.removeItem('accessToken');
             window.location.href = '/login';
