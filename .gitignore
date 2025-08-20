@@ -1,8 +1,12 @@
 # CI/CD 폴더 임시 등록
 workflows/
 
+# 환경변수
+.env
+.env.local
+.env.*.local
 
-
+# 기타
 .DS_Store
 /node_modules/
 
