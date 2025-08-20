@@ -1,8 +1,10 @@
 
 // MARK: -공통 유틸 타입 정의
 
+export type UserType = 'admin' | 'user';
+
 // api 응답
-interface ApiReponse<T> {
+export interface ApiResponse<T> {
 
 }
 
@@ -12,7 +14,7 @@ interface ApiReponse<T> {
 
 
 // 에러 응답
-interface ErrorResponse {
+export interface ErrorResponse {
 
 }
 
