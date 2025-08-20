@@ -13,19 +13,19 @@ export const API_ENDPOINTS = {
     AUTH: {
         LOGIN: '/auth/login', // 로그인
         LOGOUT: '/auth/logout', // 로그아웃
-        SIGNUP:'' // 회원가입
+        SIGNUP: '' // 회원가입
     },
 
     TRACKING: {
         CHECKOUT: '/movements/checkoout', // 자산 대출
-        CHECKIN:'/movements/checkin', // 자산 반납
-        LIST:'/movements', // 이동 이력 조회
-        MODIFY:'/movements/:movement_id', // 이동 이력 수정
+        CHECKIN: '/movements/checkin', // 자산 반납
+        LIST: '/movements', // 이동 이력 조회
+        MODIFY: '/movements/:movement_id', // 이동 이력 수정
     },
 
-    Notification: {
+    NOTIFICATION: {
         CHECKOUT: '/notifications/checkout', // 반납 지연 알림
-        WARRANTY:'/notifications/warranty', // 보증 만료 예정 알림
+        WARRANTY: '/notifications/warranty', // 보증 만료 예정 알림
         LOG: '/notifications/logs', // 알림 발송 이력 조회
     },
 };
