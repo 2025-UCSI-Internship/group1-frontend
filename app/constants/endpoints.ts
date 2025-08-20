@@ -13,12 +13,12 @@ export const API_ENDPOINTS = {
     AUTH: {
         LOGIN: '/auth/login', // 로그인
         LOGOUT: '/auth/logout', // 로그아웃
-        SIGNUP: '' // TODO: - 회원가입 추가 필요(스웨거 확인 필요)
+        SIGNUP: 'auth/signup' // 회원가입
     },
 
     TRACKING: {
-        CHECKOUT: '/movements/checkoout', // 자산 대출
-        CHECKIN: '/movements/checkin', // 자산 반납
+        CHECKOUT: '/movements/check-out/:asset_id', // 자산 대출
+        CHECKIN: '/movements/check-in/:asset_id', // 자산 반납
         LIST: '/movements', // 이동 이력 조회
         MODIFY: '/movements/:movement_id', // 이동 이력 수정
     },
