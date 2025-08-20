@@ -50,4 +50,4 @@ export interface UserDto {
 }
 
 // 사용자 구분
-export type UserRole = 'admin' | 'user'
+export type UserRole = 'Admin' | 'User'
