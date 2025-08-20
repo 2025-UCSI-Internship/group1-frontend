@@ -4,7 +4,7 @@ export const API_ENDPOINTS = {
     ASSET: {
         REGISTER: '/assets/add', // 신규 자산 등록
         LIST: '/assets', // 자산 목록 조회
-        MODIFY: '/assets/:asset_id', // 자산 정보 수정
+        UPDATE: '/assets/:asset_id', // 자산 정보 수정
         DELETE: '/assets/:asset_id', // 자산 정보 삭제
         DETAIL: '/assets/:asset_id', // 특정 자산 정보 조회
 
@@ -13,7 +13,7 @@ export const API_ENDPOINTS = {
     AUTH: {
         LOGIN: '/auth/login', // 로그인
         LOGOUT: '/auth/logout', // 로그아웃
-        SIGNUP: '' // 회원가입
+        SIGNUP: '' // TODO: - 회원가입 추가 필요(스웨거 확인 필요)
     },
 
     TRACKING: {
