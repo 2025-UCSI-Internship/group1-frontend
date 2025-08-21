@@ -3,6 +3,7 @@
 export type NotificationType = 'Late return' | 'Warranty expiry';
 
 export interface NotificationDto {
+    id: string;
     type: NotificationType;
     message: string;
     createdAt: Date;

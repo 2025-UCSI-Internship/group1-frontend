@@ -1,14 +1,15 @@
-import type { Route } from "./+types/home";
+// MARK: - 홈 페이지 (자산 페이지로 리다이렉트)
 
-export function meta({ }: Route.MetaArgs) {
-  return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
-  ];
-}
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 
 export default function Home() {
-  return (
-    <div>test</div>
-  );
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // 홈 페이지 접근 시 자산 페이지로 리다이렉트
+    navigate('/assets');
+  }, [navigate]);
+
+  return null;
 }

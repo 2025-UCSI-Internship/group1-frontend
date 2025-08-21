@@ -31,7 +31,7 @@ interface UIState {
     notificationContent: {
         title?: string;
         message?: string;
-        type: 'info' | 'success' | 'confirm';
+        type: 'info' | 'success' | 'confirm' | 'error' | 'warning';
         confirmAction?: () => void; // confirm 타입일 때 OK 버튼 액션
     } | null;
 
@@ -62,7 +62,7 @@ interface UIState {
     // 알림 관련
     showNotification: (
         message: string,
-        type?: UIState['notificationContent']['type'],
+        type?: 'info' | 'success' | 'confirm' | 'error' | 'warning',
         title?: string,
         confirmAction?: () => void,
     ) => void;
@@ -145,15 +145,15 @@ export const useUIStore = create<UIState>((set, get) => ({
                 ...acc,
                 [key]: false
             }), {} as UIState['modals'])
-        }))
+        })),
 
     // 알림 관련
     showNotification: (
-            message,
-            type = 'info',
-            title,
-            confirmAction
-        ) => {
+        message,
+        type = 'info',
+        title,
+        confirmAction
+    ) => {
         set({
             notificationContent: { message, type, title, confirmAction },
             modals: {

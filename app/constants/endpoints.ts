@@ -13,7 +13,9 @@ export const API_ENDPOINTS = {
     AUTH: {
         LOGIN: '/auth/login', // 로그인
         LOGOUT: '/auth/logout', // 로그아웃
-        SIGNUP: 'auth/signup' // 회원가입
+        SIGNUP: '/auth/signup', // 회원가입
+        REFRESH: '/auth/refresh', // 토큰 갱신
+        ME: '/auth/me', // 현재 사용자 정보
     },
 
     TRACKING: {

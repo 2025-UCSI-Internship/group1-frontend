@@ -6,9 +6,8 @@ const backgrouds = {
     INPUTFIELD: "#F7F7F8",
     BG_MODAL: "#0000003c", // 모달창 실행 시, 메인페이지 배경
     MODAL: "#FFFFFF",
-
-
-
+    SKY: "#05A2FF", // 랜딩 페이지 그라데이션용
+    BLACK: "#23242A", // 랜딩 페이지 배경용
 };
 
 // 버튼 색상 관리
@@ -30,7 +29,8 @@ const buttons = {
 const texts = {
     BLACK: "#000000",
     DESCRIPTION: "#677078",
-    
+    WHITE: '#FFFFFF',
+
 };
 
 // UI 요소

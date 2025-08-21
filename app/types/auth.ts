@@ -1,44 +1,65 @@
-// MARK: -인증 관련 타입 정의
+// MARK: - 인증 관련 타입 정의
+
+// 사용자 역할 
+export type UserRole = 'ADMIN' | 'USER';
+
+// 사용자 정보
+export interface UserDto {
+    userId: string;
+    name: string;
+    email: string;
+    phoneNumber: string;
+    role: UserRole;
+}
 
 // 로그인 요청
-interface LoginRequestDto {
+export interface LoginRequestDto {
     id: string;
     password: string;
 }
 
 // 로그인 응답
-interface LoginResponseDto {
+export interface LoginResponseDto {
     accessToken: string;
     refreshToken: string;
     user: UserDto;
 }
 
 // 로그아웃 요청
-interface LogoutRequestDto {
+export interface LogoutRequestDto {
+    // 빈 인터페이스 - 추후 필요시 추가
 }
 
-
-// 로그아웃 요청
-interface LoginResponse {
-
+// 로그아웃 응답
+export interface LogoutResponseDto {
+    success: boolean;
+    message?: string;
 }
 
 // 회원가입 요청
-interface SignupRequestDto {
-
+export interface SignupRequestDto {
+    userId: string;
+    password: string;
+    confirmPassword: string;
+    name: string;
+    email: string;
+    phoneNumber: string;
+    role: UserRole;
 }
 
 // 회원가입 응답
-interface SignupResponseDto {
-
+export interface SignupResponseDto {
+    success: boolean;
+    message: string;
 }
 
-// 사용자 정보
-interface UserDto {
-
+// 토큰 갱신 요청
+export interface RefreshTokenRequestDto {
+    refreshToken: string;
 }
 
-// 사용자 구분
-enum UserRole {
-
+// 토큰 갱신 응답
+export interface RefreshTokenResponseDto {
+    accessToken: string;
+    refreshToken: string;
 }
