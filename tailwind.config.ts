@@ -31,6 +31,15 @@ export default {
         'black': '900',
       },
 
+      // 스크린 사이즈 커스텀
+      screens: {
+        'sm': '640px',
+        'md': '768px',
+        'lg': '1024px',
+        'xl': '1280px',
+        '2xl': '1536px',
+      },
+
       // 애니메이션 추가
       animation: {
         'fadeIn': 'fadeIn 1s ease-in-out',
