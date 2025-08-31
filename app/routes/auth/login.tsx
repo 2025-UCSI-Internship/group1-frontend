@@ -119,10 +119,14 @@ export default function LoginPage() {
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full text-white py-3.5 rounded-[12px] font-semibold hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none mt-8"
+                        className="w-full text-white font-semibold hover:opacity-90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed mt-8"
                         style={{ 
-                            backgroundColor: '#4A9FFF',
-                            fontSize: '16px'
+                            height: '73px',
+                            padding: '10px 20px',
+                            borderRadius: '20px',
+                            backgroundColor: '#166ADA',
+                            boxShadow: '0 0 10px 4px rgba(78, 204, 252, 0.30) inset',
+                            fontSize: '18px'
                         }}
                     >
                         {isLoading ? 'Logging in...' : 'Log In'}

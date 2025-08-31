@@ -245,13 +245,17 @@ export default function SignupPage() {
                         </div>
                     </div>
 
-                    <button
+                                        <button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full text-white py-3 px-4 rounded-lg font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition mt-6"
-                        style={{
+                        className="w-full text-white font-semibold hover:opacity-90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed mt-6"
+                        style={{ 
+                            height: '73px',
+                            padding: '10px 20px',
+                            borderRadius: '20px',
                             backgroundColor: '#166ADA',
-                            fontSize: '16px'
+                            boxShadow: '0 0 10px 4px rgba(78, 204, 252, 0.30) inset',
+                            fontSize: '18px'
                         }}
                     >
                         {isLoading ? 'Creating Account...' : 'Sign Up'}

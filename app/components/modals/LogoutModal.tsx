@@ -1,58 +1,46 @@
-// MARK: - 로그아웃 확인 모달
+// MARK: - 로그아웃 모달
 
-import { useNavigate } from 'react-router';
-import { Modal } from './Modal';
-import { Button } from '~/components/ui/Button';
-import { useUIStore } from '~/stores/uiStore';
-import { useAuthStore } from '~/stores/authStore';
-import { colors } from '~/constants';
+import { Modal } from "./Modal";
 
-export function LogoutModal() {
-    const navigate = useNavigate();
-    const { modals, closeModal } = useUIStore();
-    const { logout } = useAuthStore();
+interface LogoutModalProps {
+    onConfirm: () => void;
+    onCancel: () => void;
+}
 
-    const handleLogout = async () => {
-        await logout();
-        closeModal('logoutConfirm');
-        navigate('/login');
-    };
-
+export function LogoutModal({ onConfirm, onCancel }: LogoutModalProps) {
     return (
-        <Modal
-            isOpen={modals.logoutConfirm}
-            onClose={() => closeModal('logoutConfirm')}
-            width="max-w-sm"
-        >
-            <div className="text-center">
+        <Modal onClose={onCancel}>
+            <div className="p-8 text-center" style={{ width: '450px' }}>
                 {/* 아이콘 */}
-                <div className="mb-4 text-4xl">⚠️</div>
-                
+                <div className="flex justify-center mb-4">
+                    <div className="w-16 h-16 rounded-full bg-[#FFF3E0] flex items-center justify-center">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" 
+                                fill="#FFA500"/>
+                        </svg>
+                    </div>
+                </div>
+
                 {/* 타이틀 */}
-                <h2 className="text-xl font-bold mb-4" style={{ color: colors.text.BLACK }}>
-                    Logout
-                </h2>
-                
+                <h2 className="text-2xl font-bold mb-3">Logout</h2>
+
                 {/* 메시지 */}
-                <p className="mb-6" style={{ color: colors.text.DESCRIPTION }}>
-                    Are you sure you want to log out?
-                </p>
-                
+                <p className="text-gray-600 mb-6">Are you sure you want to log out?</p>
+
                 {/* 버튼 */}
                 <div className="flex justify-center gap-4">
-                    <Button 
-                        variant="default" 
-                        onClick={() => closeModal('logoutConfirm')}
-                        style={{ backgroundColor: colors.button.USING }}
+                    <button
+                        onClick={onCancel}
+                        className="px-8 py-3 bg-[#677078] text-white rounded-lg hover:bg-[#575F68] transition-colors font-medium"
                     >
                         CANCEL
-                    </Button>
-                    <Button 
-                        variant="delete" 
-                        onClick={handleLogout}
+                    </button>
+                    <button
+                        onClick={onConfirm}
+                        className="px-8 py-3 bg-[#DA1616] text-white rounded-lg hover:bg-[#CA0606] transition-colors font-medium"
                     >
                         LOGOUT
-                    </Button>
+                    </button>
                 </div>
             </div>
         </Modal>

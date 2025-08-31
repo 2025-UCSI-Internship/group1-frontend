@@ -1,168 +1,87 @@
-// MARK: - Notifications 페이지
+// MARK: - 알림 이력 페이지
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useNotificationStore } from "~/stores/notificationStore";
-import { colors } from "~/constants";
-import { Button } from "~/components/ui/Button";
 
 export default function NotificationsPage() {
-    const {
-        notificationLogs,
-        fetchNotificationLogs,
-        lateReturnNotifications,
-        warrantyNotifications,
-        fetchLateReturnNotifications,
-        fetchWarrantyNotifications,
-        isLoading
-    } = useNotificationStore();
-
-    const [activeTab, setActiveTab] = useState<'all' | 'late' | 'warranty'>('all');
+    const { notifications, loading, fetchNotifications } = useNotificationStore();
+    const [filter, setFilter] = useState('all');
 
     useEffect(() => {
-        fetchNotificationLogs();
-        fetchLateReturnNotifications();
-        fetchWarrantyNotifications();
+        fetchNotifications();
     }, []);
 
-    return (
-        <div className="min-h-screen" style={{ backgroundColor: colors.bg.MAIN }}>
-            {/* 헤더 */}
-            <div className="p-6">
-                <h1 className="text-3xl font-bold mb-2" style={{ color: colors.text.BLACK }}>
-                    Notification History
-                </h1>
-                <p style={{ color: colors.text.DESCRIPTION }}>
-                    You can check the notification history.
-                </p>
-            </div>
+    // 날짜별로 그룹화
+    const groupedNotifications = notifications.reduce((acc, notif) => {
+        const date = new Date(notif.createdAt).toLocaleDateString();
+        if (!acc[date]) {
+            acc[date] = [];
+        }
+        acc[date].push(notif);
+        return acc;
+    }, {} as Record<string, typeof notifications>);
 
-            {/* 필터 탭 */}
-            <div className="px-6 mb-6">
-                <div className="flex gap-2">
-                    <Button
-                        variant={activeTab === 'all' ? 'filter' : 'default'}
-                        size="sm"
-                        onClick={() => setActiveTab('all')}
-                    >
-                        🔽 Filter
-                    </Button>
-                </div>
+    const getNotificationColor = (type: string) => {
+        switch (type) {
+            case 'OVERDUE':
+                return '#DA1616';
+            case 'WARRANTY':
+                return '#FFA500';
+            case 'RETURN':
+                return '#4A9FFF';
+            default:
+                return '#677078';
+        }
+    };
+
+    return (
+        <div className="h-full bg-[#EFF6FC] p-8">
+            {/* 헤더 */}
+            <div className="bg-white rounded-2xl p-8 mb-8">
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">Notification History</h1>
+                <p className="text-gray-600 mb-6">You can check the notification history</p>
+
+                {/* 필터 버튼 */}
+                <button className="px-6 py-2 bg-[#4A9FFF] text-white rounded-lg hover:bg-[#3A8FEF] transition-colors">
+                    Filter
+                </button>
             </div>
 
             {/* 알림 목록 */}
-            <div className="px-6 pb-6">
-                {isLoading ? (
-                    <div className="text-center py-8" style={{ color: colors.text.DESCRIPTION }}>
-                        Loading notifications...
+            <div className="space-y-8">
+                {Object.entries(groupedNotifications).map(([date, notifs]) => (
+                    <div key={date} className="bg-white rounded-2xl p-8">
+                        <h2 className="text-xl font-bold text-gray-900 mb-6">
+                            {date.replace(/\//g, '.')}
+                        </h2>
+
+                        {/* 날짜별 알림 리스트 */}
+                        <div className="relative">
+                            {/* 왼쪽 파란색 라인 */}
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#4A9FFF]"></div>
+                            
+                            <div className="pl-8 space-y-6">
+                                {notifs.map((notif) => (
+                                    <div key={notif.id}>
+                                        <h3 className="font-semibold text-lg mb-1">
+                                            {notif.type === 'OVERDUE' && `Overdue Return Alert (Serial No. : ${notif.assetSerialNumber})`}
+                                            {notif.type === 'WARRANTY' && `Upcoming Warranty Expiry Alert(Serial No. : ${notif.assetSerialNumber})`}
+                                            {notif.type === 'RETURN' && `Return Due Today(Serial No. : ${notif.assetSerialNumber})`}
+                                        </h3>
+                                        <p className="text-gray-600">
+                                            {notif.message}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
-                ) : (
-                    <div className="space-y-4">
-                        {/* 날짜별 그룹 */}
-                        <div className="mb-8">
-                            <h3 className="text-lg font-semibold mb-4" style={{ color: colors.text.BLACK }}>
-                                2020.08.16.
-                            </h3>
+                ))}
 
-                            <div className="space-y-3">
-                                {/* 반납 지연 알림 */}
-                                <div className="p-4 rounded-lg border-l-4"
-                                    style={{
-                                        backgroundColor: colors.bg.LEFT_PANNEL,
-                                        borderColor: colors.button.DELETE
-                                    }}>
-                                    <h4 className="font-semibold" style={{ color: colors.text.BLACK }}>
-                                        Overdue Return Alert (Serial No. : abcd123)
-                                    </h4>
-                                    <p className="text-sm mt-1" style={{ color: colors.text.DESCRIPTION }}>
-                                        The return of asset No. abcd123 is overdue by 3 days.
-                                    </p>
-                                </div>
-
-                                {/* 보증 만료 알림 */}
-                                <div className="p-4 rounded-lg border-l-4"
-                                    style={{
-                                        backgroundColor: colors.bg.LEFT_PANNEL,
-                                        borderColor: colors.button.FILTER
-                                    }}>
-                                    <h4 className="font-semibold" style={{ color: colors.text.BLACK }}>
-                                        Upcoming Warranty Expiry Alert (Serial No. : xyz789)
-                                    </h4>
-                                    <p className="text-sm mt-1" style={{ color: colors.text.DESCRIPTION }}>
-                                        The warranty for device Serial No. xyz789 will expire on 2020.08.23.
-                                    </p>
-                                </div>
-
-                                {/* 추가 반납 지연 알림 */}
-                                <div className="p-4 rounded-lg border-l-4"
-                                    style={{
-                                        backgroundColor: colors.bg.LEFT_PANNEL,
-                                        borderColor: colors.button.DELETE
-                                    }}>
-                                    <h4 className="font-semibold" style={{ color: colors.text.BLACK }}>
-                                        Overdue Return Alert (Serial No. : def456)
-                                    </h4>
-                                    <p className="text-sm mt-1" style={{ color: colors.text.DESCRIPTION }}>
-                                        The return of asset No. def456 is overdue by 1 days.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* 이전 날짜 */}
-                        <div className="mb-8">
-                            <h3 className="text-lg font-semibold mb-4" style={{ color: colors.text.BLACK }}>
-                                2020.08.15.
-                            </h3>
-
-                            <div className="space-y-3">
-                                <div className="p-4 rounded-lg border-l-4"
-                                    style={{
-                                        backgroundColor: colors.bg.LEFT_PANNEL,
-                                        borderColor: colors.button.FILTER
-                                    }}>
-                                    <h4 className="font-semibold" style={{ color: colors.text.BLACK }}>
-                                        Upcoming Warranty Expiry Alert (Serial No. : dswlf80)
-                                    </h4>
-                                    <p className="text-sm mt-1" style={{ color: colors.text.DESCRIPTION }}>
-                                        The warranty for device Serial No. dswlf80 expires today (2020.08.15).
-                                    </p>
-                                </div>
-
-                                <div className="p-4 rounded-lg border-l-4"
-                                    style={{
-                                        backgroundColor: colors.bg.LEFT_PANNEL,
-                                        borderColor: colors.button.DELETE
-                                    }}>
-                                    <h4 className="font-semibold" style={{ color: colors.text.BLACK }}>
-                                        Return Due Today (Serial No. : 4efgh6)
-                                    </h4>
-                                    <p className="text-sm mt-1" style={{ color: colors.text.DESCRIPTION }}>
-                                        The return for asset No. 4efgh6 is due today (2020.08.15.).
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* 더 이전 날짜 */}
-                        <div className="mb-8">
-                            <h3 className="text-lg font-semibold mb-4" style={{ color: colors.text.BLACK }}>
-                                2020.08.14.
-                            </h3>
-
-                            <div className="space-y-3">
-                                <div className="p-4 rounded-lg border-l-4"
-                                    style={{
-                                        backgroundColor: colors.bg.LEFT_PANNEL,
-                                        borderColor: colors.button.DELETE
-                                    }}>
-                                    <h4 className="font-semibold" style={{ color: colors.text.BLACK }}>
-                                        Overdue Return Alert (Serial No. : abcd123)
-                                    </h4>
-                                    <p className="text-sm mt-1" style={{ color: colors.text.DESCRIPTION }}>
-                                        The return of asset No. abcd123 is overdue by 1 days.
-                                    </p>
-                                </div>
-                            </div>
+                {notifications.length === 0 && (
+                    <div className="bg-white rounded-2xl p-8">
+                        <div className="text-center py-12 text-gray-500">
+                            No notifications yet
                         </div>
                     </div>
                 )}

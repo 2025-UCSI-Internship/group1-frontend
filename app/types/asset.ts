@@ -65,6 +65,7 @@ export interface GetAssetByIdResponseDto {
 
 // 자산 DTO
 export interface AssetDto {
+    id: string; // alias for assetId
     assetId: string;
     category: AssetCategory;
     type: AssetType;

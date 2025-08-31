@@ -16,16 +16,19 @@ interface AssetState {
     assets: AssetDto[];
     currentAsset: AssetDto | null;
     isLoading: boolean;
+    loading: boolean; // alias for isLoading
     error: string | null;
     filters: GetAssetsRequestDto;
 
     // Actions
     fetchAssets: (params?: GetAssetsRequestDto) => Promise<void>;
     fetchAssetById: (assetId: string) => Promise<void>;
+    getAsset: (assetId: string) => AssetDto | undefined;
     createAsset: (data: CreateAssetRequestDto) => Promise<void>;
     updateAsset: (assetId: string, data: UpdateAssetRequestDto)
         => Promise<void>;
     deleteAsset: (assetId: string) => Promise<void>;
+    filterAssets: (filters: any) => void;
     setFilters: (filters: GetAssetsRequestDto) => void;
     clearError: () => void;
     reset: () => void;
@@ -37,26 +40,37 @@ export const useAssetStore = create<AssetState>((set, get) =>
     assets: [],
     currentAsset: null,
     isLoading: false,
+    loading: false,
     error: null,
     filters: {},
 
     // Actions
     fetchAssets: async (params) => {
         try {
-            set({ isLoading: true, error: null });
+            set({ isLoading: true, loading: true, error: null });
             const filters = params || get().filters;
             const data = await assetAPI.getAssets(filters);
 
             set({
                 assets: data.assets,
                 isLoading: false,
+                loading: false,
             });
         } catch (error) {
             set({
                 error: error instanceof Error ? error.message : 'Failed to fetch assets',
                 isLoading: false,
+                loading: false,
             });
         }
+    },
+
+    getAsset: (assetId) => {
+        return get().assets.find(asset => asset.assetId === assetId);
+    },
+
+    filterAssets: (filters) => {
+        get().fetchAssets(filters);
     },
 
     fetchAssetById: async (assetId) => {

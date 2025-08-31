@@ -1,47 +1,49 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router';
-import { Button } from '../components/ui/Button';
 import { colors } from '../constants/colors';
 
 export default function Landing() {
     const navigate = useNavigate();
     const [currentSection, setCurrentSection] = useState(0);
     const containerRef = useRef<HTMLDivElement>(null);
+    const scrollAccumulatorRef = useRef(0);
+    const isScrollingRef = useRef(false);
+    const touchStartYRef = useRef(0);
+    const currentSectionRef = useRef(0);
 
     // 스크롤 핸들러
     useEffect(() => {
-        let touchStartY = 0;
-        let isScrolling = false;
-        let scrollAccumulator = 0;
 
         const handleWheel = (e: WheelEvent) => {
             e.preventDefault();
-            if (isScrolling) return;
+            if (isScrollingRef.current) return;
 
             // 스크롤 누적값 계산
-            scrollAccumulator += e.deltaY;
+            scrollAccumulatorRef.current += e.deltaY;
 
             // 임계값을 넘어야 섹션 전환 (더 큰 값으로 설정)
-            if (Math.abs(scrollAccumulator) < 100) return;
+            if (Math.abs(scrollAccumulatorRef.current) < 100) return;
 
-            isScrolling = true;
+            isScrollingRef.current = true;
 
-            if (scrollAccumulator > 0 && currentSection < 2) {
-                setCurrentSection(prev => prev + 1);
-            } else if (scrollAccumulator < 0 && currentSection > 0) {
-                setCurrentSection(prev => prev - 1);
+            if (scrollAccumulatorRef.current > 0 && currentSectionRef.current < 2) {
+                currentSectionRef.current += 1;
+                setCurrentSection(currentSectionRef.current);
+            } else if (scrollAccumulatorRef.current < 0 && currentSectionRef.current > 0) {
+                currentSectionRef.current -= 1;
+                setCurrentSection(currentSectionRef.current);
             }
 
             // 누적값 초기화
-            scrollAccumulator = 0;
+            scrollAccumulatorRef.current = 0;
 
             setTimeout(() => {
-                isScrolling = false;
+                isScrollingRef.current = false;
             }, 1800); // 더 긴 대기 시간
         };
 
         const handleTouchStart = (e: TouchEvent) => {
-            touchStartY = e.touches[0].clientY;
+            touchStartYRef.current = e.touches[0].clientY;
         };
 
         const handleTouchMove = (e: TouchEvent) => {
@@ -49,46 +51,48 @@ export default function Landing() {
         };
 
         const handleTouchEnd = (e: TouchEvent) => {
-            if (isScrolling) return;
+            if (isScrollingRef.current) return;
 
             const touchEndY = e.changedTouches[0].clientY;
-            const deltaY = touchStartY - touchEndY;
+            const deltaY = touchStartYRef.current - touchEndY;
 
             if (Math.abs(deltaY) > 50) {
-                isScrolling = true;
+                isScrollingRef.current = true;
 
-                if (deltaY > 0 && currentSection < 2) {
-                    setCurrentSection(prev => prev + 1);
-                } else if (deltaY < 0 && currentSection > 0) {
-                    setCurrentSection(prev => prev - 1);
+                if (deltaY > 0 && currentSectionRef.current < 2) {
+                    currentSectionRef.current += 1;
+                    setCurrentSection(currentSectionRef.current);
+                } else if (deltaY < 0 && currentSectionRef.current > 0) {
+                    currentSectionRef.current -= 1;
+                    setCurrentSection(currentSectionRef.current);
                 }
 
                 setTimeout(() => {
-                    isScrolling = false;
+                    isScrollingRef.current = false;
                 }, 1800); // 충분한 대기 시간
             }
         };
 
         // 키보드 네비게이션 추가
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (isScrolling) return;
+            if (isScrollingRef.current) return;
 
             if (e.key === 'ArrowDown' || e.key === 'PageDown') {
                 e.preventDefault();
                 if (currentSection < 2) {
-                    isScrolling = true;
+                    isScrollingRef.current = true;
                     setCurrentSection(prev => prev + 1);
                     setTimeout(() => {
-                        isScrolling = false;
+                        isScrollingRef.current = false;
                     }, 1800);
                 }
             } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
                 e.preventDefault();
                 if (currentSection > 0) {
-                    isScrolling = true;
+                    isScrollingRef.current = true;
                     setCurrentSection(prev => prev - 1);
                     setTimeout(() => {
-                        isScrolling = false;
+                        isScrollingRef.current = false;
                     }, 1800);
                 }
             }
@@ -107,7 +111,7 @@ export default function Landing() {
             window.removeEventListener('touchend', handleTouchEnd);
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [currentSection]);
+    }, []);
 
     // 디버깅을 위한 로그
     useEffect(() => {
@@ -269,10 +273,10 @@ export default function Landing() {
                 {/* Section 3: Get Started - 피그마 정확한 비율 */}
                 <section
                     className={`absolute inset-0 w-full flex items-center transition-all duration-1000 ${currentSection === 2
-                            ? 'opacity-100 translate-y-0'
-                            : currentSection > 2
-                                ? 'opacity-0 -translate-y-full'
-                                : 'opacity-0 translate-y-full'
+                        ? 'opacity-100 translate-y-0'
+                        : currentSection > 2
+                            ? 'opacity-0 -translate-y-full'
+                            : 'opacity-0 translate-y-full'
                         }`}
                     style={{
                         height: '100%',
@@ -292,88 +296,50 @@ export default function Landing() {
                                 Started
                             </h2>
 
-                            <div className="flex gap-8">
-                                <Button
-                                    variant="default"
-                                    size="custom"
-                                    customWidth="280px"
-                                    customHeight="70px"
-                                    fontSize="24px"
-                                    insetShadow={true}
-                                    fontWeight="bold"
+                            <div className="flex gap-12">
+                                <button
                                     onClick={() => navigate('/signup')}
+                                    className="hover:opacity-90 transition-all duration-200 flex items-center justify-center"
+                                    style={{
+                                        width: '304px',
+                                        height: '73px',
+                                        padding: '10px 20px',
+                                        borderRadius: '20px',
+                                        backgroundColor: '#166ADA',
+                                        boxShadow: '0 0 10px 4px rgba(78, 204, 252, 0.30) inset',
+                                        fontSize: '24px',
+                                        fontWeight: 'bold',
+                                        color: '#FFFFFF'
+                                    }}
                                 >
                                     Sign up
-                                </Button>
-                                <Button
-                                    variant="default"
-                                    size="custom"
-                                    customWidth="280px"
-                                    customHeight="70px"
-                                    fontSize="24px"
-                                    insetShadow={true}
-                                    fontWeight="bold"
+                                </button>
+                                <button
                                     onClick={() => navigate('/login')}
+                                    className="hover:opacity-90 transition-all duration-200 flex items-center justify-center"
+                                    style={{
+                                        width: '304px',
+                                        height: '73px',
+                                        padding: '10px 20px',
+                                        borderRadius: '20px',
+                                        backgroundColor: '#166ADA',
+                                        boxShadow: '0 0 10px 4px rgba(78, 204, 252, 0.30) inset',
+                                        fontSize: '24px',
+                                        fontWeight: 'bold',
+                                        color: '#FFFFFF'
+                                    }}
                                 >
                                     Login
-                                </Button>
+                                </button>
                             </div>
                         </div>
 
                         <div className={`flex-1 ${currentSection >= 2 ? 'animate-slideInRight' : 'opacity-0'} flex justify-center items-center`}>
-                            <div className="relative">
-                                {/* 원형 배경 - 더 크게 */}
-                                <div
-                                    className="flex items-center justify-center rounded-full"
-                                    style={{
-                                        backgroundColor: colors.bg.SKY,
-                                        width: '450px',
-                                        height: '450px'
-                                    }}
-                                >
-                                    {/* 태그 아이콘 */}
-                                    <svg
-                                        className="text-white"
-                                        style={{
-                                            width: '55%',
-                                            height: '55%'
-                                        }}
-                                        viewBox="0 0 24 24"
-                                        fill="currentColor"
-                                    >
-                                        <path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z" />
-                                    </svg>
-                                </div>
-
-                                {/* 회전하는 화살표 */}
-                                <svg
-                                    className="absolute inset-0 w-full h-full animate-spin-slow scale-[1.25]"
-                                    viewBox="0 0 100 100"
-                                >
-                                    <defs>
-                                        <marker
-                                            id="arrowhead"
-                                            markerWidth="10"
-                                            markerHeight="10"
-                                            refX="8"
-                                            refY="3"
-                                            orient="auto"
-                                        >
-                                            <polygon
-                                                points="0 0, 10 3, 0 6"
-                                                fill={colors.bg.SKY}
-                                            />
-                                        </marker>
-                                    </defs>
-                                    <path
-                                        d="M 50,15 A 35,35 0 1,1 49.9,15"
-                                        fill="none"
-                                        stroke={colors.bg.SKY}
-                                        strokeWidth="2"
-                                        markerEnd="url(#arrowhead)"
-                                    />
-                                </svg>
-                            </div>
+                            <img
+                                src="/logo.png"
+                                alt="UCSI Logo"
+                                className="w-[450px] h-[450px] object-contain"
+                            />
                         </div>
                     </div>
                 </section>

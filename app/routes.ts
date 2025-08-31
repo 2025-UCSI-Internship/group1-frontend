@@ -11,7 +11,7 @@ export default [
 
     // 메인 레이아웃이 적용되는 라우트
     layout("routes/layouts/main-layout.tsx", [
-        route("assets", "routes/assets/index.tsx"),
+        route("home", "routes/home.tsx"),
         route("assets/:id", "routes/assets/detail.tsx"),
         route("history", "routes/history/index.tsx"),
         route("notifications", "routes/notifications/index.tsx"),
